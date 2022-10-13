@@ -13,9 +13,6 @@ class PostController extends Controller
     public function index()
     {
         $title = 'Posts';
-//        $post = new Post();
-//        $post->category();
-//        $posts = $post->get();
 
         $posts = Post::all();
         $categories = Category::all();
