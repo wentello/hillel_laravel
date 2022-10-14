@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -17,11 +18,33 @@ class PostController extends Controller
         $posts = Post::all();
         $categories = Category::all();
         $users = User::all();
+        $tags = Tag::all();
 
         return view('post/list', [
             'title' => $title,
             'posts' => $posts,
             'categories' => $categories,
+            'users' => $users,
+            'tags' => $tags,
+        ]);
+    }
+
+    public function postTag($tag)
+    {
+        $title = 'Post Tag';
+
+        $posts = Post::whereHas('tags', function (Builder $query) use ($tag) {
+            $query->where('id', '=', $tag);
+        })->get();
+        $tags = Tag::find($tag);
+        $users = User::all();
+        $categories = Category::all();
+
+        return view('post/list', [
+            'title' => $title,
+            'posts' => $posts,
+            'categories' => $categories,
+            'tags' => $tags,
             'users' => $users,
         ]);
     }
@@ -32,16 +55,18 @@ class PostController extends Controller
         $posts = Post::where('category_id', trim($category))->where('user_id', trim($author))->get();
         $categories = Category::find(trim($category));
         $users = User::find(trim($author));
-
+        $tags = Tag::all();
         return view('post/list', [
             'title' => $title,
+            'posts' => $posts,
             'posts' => $posts,
             'categories' => [$categories],
             'users' => [$users],
         ]);
     }
 
-    public function category($category){
+    public function category($category)
+    {
         $title = 'Author';
 
         $posts = Post::whereHas('category', function (Builder $query) use ($category) {
@@ -49,7 +74,7 @@ class PostController extends Controller
         })->get();
         $category = Category::find(trim($category));
         $users = User::all();
-
+        $tags = Tag::all();
         return view('post/list', [
             'title' => $title,
             'posts' => $posts,
@@ -64,11 +89,12 @@ class PostController extends Controller
         $posts = Post::where('user_id', trim($author))->get();
         $categories = Category::all();
         $users = User::find(trim($author));
-
+        $tags = Tag::all();
         return view('post/list', [
             'title' => $title,
             'posts' => $posts,
             'categories' => $categories,
+            'tags' => $tags,
             'users' => [$users],
         ]);
     }

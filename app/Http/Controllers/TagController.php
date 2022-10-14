@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostTag;
 use App\Models\Tag;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class TagController extends Controller
 {
-    public function index()
+    public function index($tag)
     {
-        $title = 'Categories';
-        $tags = Tag::all();
+        $title = 'Tag';
+        $tag = Tag::find($tag);
 
         $postTags = new PostTag();
         $postTags->posts();
@@ -23,7 +26,45 @@ class TagController extends Controller
             $arrPostTags[$postTag->tag_id][] = Post::find($postTag->post_id);
         }
 
-        return view('tags/list', compact('title', 'tags', 'arrPostTags', 'postTags'));
+        return view('tags/list', compact('title', 'tag', 'arrPostTags', 'postTags'));
+    }
+
+    public function tag($tag)
+    {
+        $title = 'Author';
+
+        $posts = Post::whereHas('tags', function (Builder $query) use ($tag) {
+            $query->where('tags.id', '=', $tag);
+        })->get();
+        $category = Category::all();
+        $users = User::all();
+        $tags = Tag::find(trim($tag));
+        return view('post/list', [
+            'title' => $title,
+            'posts' => $posts,
+            'categories' => $category,
+            'users' => $users,
+            'tags' => [$tags],
+        ]);
+    }
+
+    public function authorCategoryTag($author, $category, $tag)
+    {
+        $title = 'Author Category Tag';
+
+        $posts = Post::whereHas('tags', function (Builder $query) use ($author, $category, $tag) {
+            $query->where('user_id', '=', $author)->where('category_id', '=', $category)->where('tags.id', '=', $tag);
+        })->get();
+        $category = Category::find($category);
+        $users = User::find($author);
+        $tags = Tag::find($tag);
+        return view('post/list', [
+            'title' => $title,
+            'posts' => $posts,
+            'categories' => [$category],
+            'users' => [$users],
+            'tags' => [$tags],
+        ]);
     }
 
     public function delete($id)

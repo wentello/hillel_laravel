@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
 Route::get('/author/{author}/category/{category}', [\App\Http\Controllers\PostController::class, 'authorCategory'])->name('post.author.category');
 Route::get('/category/{category}', [\App\Http\Controllers\PostController::class, 'category'])->name('category.index');
-Route::get('/author/{author} ', [\App\Http\Controllers\PostController::class, 'author'])->name('post.author');
+Route::get('/author/{author}', [\App\Http\Controllers\PostController::class, 'author'])->name('post.author');
+Route::get('/tag/{tag}', [\App\Http\Controllers\TagController::class, 'tag'])->name('tag.index');
+Route::get('/author/{author}/category/{category}/tag/{tag}', [\App\Http\Controllers\TagController::class, 'authorCategoryTag'])->name('author.category.tag');
 
 /*Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
 

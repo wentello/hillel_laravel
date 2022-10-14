@@ -20,4 +20,14 @@ class Tag extends Model
     {
         return $this->belongsToMany(Post::class, 'post_tag');
     }
+
+     public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'post_tag');
+    }
+
+    public function postTag()
+    {
+        return $this->hasManyThrough(PostTag::class, Post::class, 'id', 'post_id', '', 'id');
+    }
 }

@@ -6,31 +6,29 @@
 
 @section('content')
     <div class="container">
-        <a href="{{ route('tag.create') }}" class="btn btn-primary">Add Tag</a>
-        @foreach($tags as $tag)
-            <div class="row">
-                <div class="col">
-                    title: {{ $tag->title }}
-                </div>
-                <div class="col">
-                    slug: {{ $tag->slug }}
-                </div>
-                <div class="col">
-                    post:
-                    @if(!@empty($arrPostTags[$tag->id]))
-                        @foreach($arrPostTags[$tag->id] as $post)
-                            {{ $post->title }}<br>
-                        @endforeach
-                    @endif
-                </div>
-                <div class="col">
-                    <a href="{{ route('tag.edit', ['id' => $tag->id]) }}">edit</a>
-                </div>
-                <div class="col">
-                    <a href="{{ route('tag.delete', ['id' => $tag->id]) }}">delete</a>
-                </div>
-            </div>
-        @endforeach
-
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tag</th>
+                <th scope="col">Post Title</th>
+                <th scope="col">Post Slug</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Updates At</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($arrPostTags as $i => $postTag)
+                <tr>
+                    <th scope="row">{{ $i+1 }}</th>
+                    <td>{{ $tag->title }}</td>
+                    <td>{{ $postTag[$tag->id]->title }}</td>
+                    <td>{{ $postTag[$tag->id]->slug }}</td>
+                    <td class="td-date">{{ $objPostTags[$i]->created_at->format('Y-m-d') }}</td>
+                    <td class="td-date">{{ $objPostTags[$i]->updated_at->format('Y-m-d') }}</td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection

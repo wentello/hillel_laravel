@@ -11,9 +11,10 @@
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
+                <th scope="col">Body</th>
                 <th scope="col">Author</th>
                 <th scope="col">Category</th>
-                <th scope="col">Body</th>
+                <th scope="col">Tag</th>
                 <th scope="col">Created At</th>
                 <th scope="col">Updates At</th>
             </tr>
@@ -23,6 +24,7 @@
                 <tr>
                     <th scope="row">{{ $i+1 }}</th>
                     <td>{{ $post->title }}</td>
+                    <td>{{ $post->body }}</td>
                     <td>
                         @foreach($users as $user)
                             @if($user->id == $post->user_id)
@@ -37,7 +39,18 @@
                             @endif
                         @endforeach
                     </td>
-                    <td>{{ $post->body }}</td>
+                    <td>
+                        @foreach($tags as $tag)
+                            @if(!empty($tag->posts))
+                                @foreach($tag->posts as $tagPost)
+                                    @if($tagPost->id == $post->id)
+                                        <a href="{{ route('tag.index',['tag' => $tag->id]) }}">{{ $tag->title }}</a>
+                                    @endif
+                                @endforeach
+                            @endif
+                        @endforeach
+                    </td>
+
                     <td class="td-date">{{ $post->created_at->format('Y-m-d') }}</td>
                     <td class="td-date">{{ $post->updated_at->format('Y-m-d') }}</td>
                 </tr>
