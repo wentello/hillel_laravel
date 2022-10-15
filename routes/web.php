@@ -1,7 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\TagController as AdminTagController;
+use App\Http\Controllers\Admin\PostController as AdminPostController;
+use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,32 +20,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
-Route::get('/author/{author}/category/{category}', [\App\Http\Controllers\PostController::class, 'authorCategory'])->name('post.author.category');
-Route::get('/category/{category}', [\App\Http\Controllers\PostController::class, 'category'])->name('category.index');
-Route::get('/author/{author}', [\App\Http\Controllers\PostController::class, 'author'])->name('post.author');
-Route::get('/tag/{tag}', [\App\Http\Controllers\TagController::class, 'tag'])->name('tag.index');
-Route::get('/author/{author}/category/{category}/tag/{tag}', [\App\Http\Controllers\TagController::class, 'authorCategoryTag'])->name('author.category.tag');
+Route::get('/', [PostController::class, 'index'])->name('post.index');
+Route::get('/author/{author}/category/{category}', [PostController::class, 'authorCategory'])->name('post.author.category');
+Route::get('/category/{category}', [PostController::class, 'category'])->name('category.index');
+Route::get('/author/{author}', [PostController::class, 'author'])->name('post.author');
+Route::get('/tag/{tag}', [TagController::class, 'tag'])->name('tag.index');
+Route::get('/author/{author}/category/{category}/tag/{tag}', [TagController::class, 'authorCategoryTag'])->name('author.category.tag');
 
-/*Route::get('/', [\App\Http\Controllers\HomeController::class, 'index']);
+Route::middleware(['guest'])->group(function () {
+    Route::get('/auth/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/auth/login', [AuthController::class, 'handleLogin'])->name('auth.handle.login');
+});
 
-Route::get('/category', [\App\Http\Controllers\CategoryController::class, 'index'])->name('category.index');
-Route::get('/category/{id}/edit', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('category.edit');
-Route::get('/category/{id}/delete', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('category.delete');
-Route::post('/category/update', [\App\Http\Controllers\CategoryController::class, 'save'])->name('category.update');
-Route::get('/category/create', [\App\Http\Controllers\CategoryController::class, 'create'])->name('category.create');
-Route::post('/category/store', [\App\Http\Controllers\CategoryController::class, 'save'])->name('category.store');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/auth/', [AdminHomeController::class, 'index'])->name('admin.panel');
 
-Route::get('/tag', [\App\Http\Controllers\TagController::class, 'index'])->name('tag.index');
-Route::get('/tag/{id}/edit', [\App\Http\Controllers\TagController::class, 'edit'])->name('tag.edit');
-Route::get('/tag/{id}/delete', [\App\Http\Controllers\TagController::class, 'delete'])->name('tag.delete');
-Route::post('/tag/update', [\App\Http\Controllers\TagController::class, 'save'])->name('tag.update');
-Route::get('/tag/create', [\App\Http\Controllers\TagController::class, 'create'])->name('tag.create');
-Route::post('/tag/store', [\App\Http\Controllers\TagController::class, 'save'])->name('tag.store');
+    Route::get('/auth/category', [AdminCategoryController::class, 'index'])->name('admin.category.index');
+    Route::get('/auth/category/{id}/edit', [AdminCategoryController::class, 'edit'])->name('admin.category.edit');
+    Route::get('/auth/category/{id}/delete', [AdminCategoryController::class, 'delete'])->name('admin.category.delete');
+    Route::post('/auth/category/update', [AdminCategoryController::class, 'save'])->name('admin.category.update');
+    Route::get('/auth/category/create', [AdminCategoryController::class, 'create'])->name('admin.category.create');
+    Route::post('/auth/category/store', [AdminCategoryController::class, 'save'])->name('admin.category.store');
 
-Route::get('/post', [\App\Http\Controllers\PostController::class, 'index'])->name('post.index');
-Route::get('/post/{id}/edit', [\App\Http\Controllers\PostController::class, 'edit'])->name('post.edit');
-Route::get('/post/{id}/delete', [\App\Http\Controllers\PostController::class, 'delete'])->name('post.delete');
-Route::post('/post/update', [\App\Http\Controllers\PostController::class, 'save'])->name('post.update');
-Route::get('/post/create', [\App\Http\Controllers\PostController::class, 'create'])->name('post.create');
-Route::post('/post/store', [\App\Http\Controllers\PostController::class, 'save'])->name('post.store');*/
+    Route::get('/auth/tag', [AdminTagController::class, 'index'])->name('admin.tag.index');
+    Route::get('/auth/tag/{id}/edit', [AdminTagController::class, 'edit'])->name('admin.tag.edit');
+    Route::get('/auth/tag/{id}/delete', [AdminTagController::class, 'delete'])->name('admin.tag.delete');
+    Route::post('/auth/tag/update', [AdminTagController::class, 'save'])->name('admin.tag.update');
+    Route::get('/auth/tag/create', [AdminTagController::class, 'create'])->name('admin.tag.create');
+    Route::post('/auth/tag/store', [AdminTagController::class, 'save'])->name('admin.tag.store');
+
+    Route::get('/auth/post', [AdminPostController::class, 'index'])->name('admin.post.index');
+    Route::get('/auth/post/{id}/edit', [AdminPostController::class, 'edit'])->name('admin.post.edit');
+    Route::get('/auth/post/{id}/delete', [AdminPostController::class, 'delete'])->name('admin.post.delete');
+    Route::post('/auth/post/update', [AdminPostController::class, 'save'])->name('admin.post.update');
+    Route::get('/auth/post/create', [AdminPostController::class, 'create'])->name('admin.post.create');
+    Route::post('/auth/post/store', [AdminPostController::class, 'save'])->name('admin.post.store');
+});

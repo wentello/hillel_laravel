@@ -17,6 +17,7 @@ class Post extends Model
         'slug',
         'body',
         'category_id',
+        'user_id',
     ];
 
     public function tags()
