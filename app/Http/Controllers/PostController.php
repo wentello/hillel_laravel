@@ -80,6 +80,7 @@ class PostController extends Controller
             'posts' => $posts,
             'categories' => [$category],
             'users' => $users,
+            'tags' => $tags,
         ]);
     }
 
