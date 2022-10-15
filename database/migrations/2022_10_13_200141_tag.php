@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('post', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->index(['user_id']);
-            $table->foreign('user_id')->references('id')->on('users');
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('title')->unique();
+            $table->string('slug');
+            $table->timestamps();
+            $table->softDeletes();
         });
-
     }
 
     /**
@@ -28,9 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('post', function (Blueprint $table) {
-            $table->dropForeign('post_user_id_foreign');
-            $table->dropColumn(['user_id']);
-        });
+        Schema::dropIfExists('tags');
     }
 };
