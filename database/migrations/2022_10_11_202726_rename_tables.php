@@ -24,6 +24,7 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::rename('categories', 'category');
+        Schema::rename('posts', 'post');
     }
 };
