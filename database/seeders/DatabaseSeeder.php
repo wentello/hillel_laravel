@@ -22,10 +22,10 @@ class DatabaseSeeder extends Seeder
              $order->category_id = $categories->random()->id;
              $order->save();
          });
-        \App\Models\PostTag::factory(100)->make()->each(function ($order) use ($posts, $tags){
-            $order->post_id = $posts->random()->id;
-            $order->tag_id = $tags->random()->id;
-            $order->save();
+
+        $posts->each(function ($order) use ($tags){
+            $order->tags()->attach($tags->random(rand(1,5))->pluck('id'));
         });
+
     }
 }

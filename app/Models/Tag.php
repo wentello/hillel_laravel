@@ -11,6 +11,7 @@ class Tag extends Model
 {
     use HasFactory;
     use SoftDeletes;
+
     protected $fillable = [
         'title',
         'slug',
@@ -21,7 +22,7 @@ class Tag extends Model
         return $this->belongsToMany(Post::class, 'post_tag');
     }
 
-     public function tags()
+    public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tag');
     }
