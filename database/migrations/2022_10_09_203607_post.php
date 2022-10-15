@@ -32,9 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('post', function (Blueprint $table) {
-            $table->dropForeign('post_category_id_foreign');
-        });
         Schema::dropIfExists('post');
     }
 };
