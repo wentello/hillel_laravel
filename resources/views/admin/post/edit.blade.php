@@ -22,17 +22,6 @@
                     @endisset
                 </div>
                 <div class="col">
-                    <label for="slug">slug</label>
-                    <input class="form-control" id="slug" name="slug" value="{{ $data['slug'] }}">
-                    @if($errors->has('slug'))
-                        @foreach($errors->get('slug') as $error)
-                            <div class="alert alert-danger" role="alert">
-                                {{ $error }}
-                            </div>
-                        @endforeach
-                    @endisset
-                </div>
-                <div class="col">
                     <label for="body">body</label>
                     <input class="form-control" id="body" name="body" value="{{ $data['body'] }}">
                     @if($errors->has('body'))

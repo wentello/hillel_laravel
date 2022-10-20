@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -47,6 +48,11 @@ class PostController extends Controller
 
     public function save(Request $request)
     {
+
+        if (! Gate::allows('save-post')) {
+            abort(403);
+        }
+
         $request->validate([
             'title' => [
                 'required',

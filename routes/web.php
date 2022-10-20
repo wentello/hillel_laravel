@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
@@ -9,6 +10,8 @@ use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
+use App\Models\Category;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,9 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/auth/category', [AdminCategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/auth/category/{id}/edit', [AdminCategoryController::class, 'edit'])->name('admin.category.edit');
     Route::get('/auth/category/{id}/delete', [AdminCategoryController::class, 'delete'])->name('admin.category.delete');
-    Route::post('/auth/category/update', [AdminCategoryController::class, 'save'])->name('admin.category.update');
+    Route::post('/auth/category/update', function(Request $request){return (new AdminCategoryController)->save($request);})->can('update', ['App\Models\Category'])->name('admin.category.update');
     Route::get('/auth/category/create', [AdminCategoryController::class, 'create'])->name('admin.category.create');
-    Route::post('/auth/category/store', [AdminCategoryController::class, 'save'])->name('admin.category.store');
+    Route::post('/auth/category/store', [AdminCategoryController::class, 'save'])->middleware(['can:create,App\Models\Category'])->name('admin.category.store');
 
     Route::get('/auth/tag', [AdminTagController::class, 'index'])->name('admin.tag.index');
     Route::get('/auth/tag/{id}/edit', [AdminTagController::class, 'edit'])->name('admin.tag.edit');
