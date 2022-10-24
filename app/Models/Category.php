@@ -17,12 +17,6 @@ class Category extends Model
         'slug',
     ];
 
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        return $this;
-    }
-
     public function posts()
     {
         return $this->hasMany(Post::class);
