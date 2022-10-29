@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Models\Category;
+use App\Http\Controllers\Oauth\GithubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,8 @@ Route::get('/category/{category}', [PostController::class, 'category'])->name('c
 Route::get('/author/{author}', [PostController::class, 'author'])->name('post.author');
 Route::get('/tag/{tag}', [TagController::class, 'tag'])->name('tag.index');
 Route::get('/author/{author}/category/{category}/tag/{tag}', [TagController::class, 'authorCategoryTag'])->name('author.category.tag');
+
+Route::get('/oauth/github/callback', [GithubController::class, 'callback'])->name('github.callback');
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/auth/login', [AuthController::class, 'login'])->name('login');

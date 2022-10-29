@@ -10,7 +10,15 @@ class AuthController
 {
     public function login()
     {
-        return view('auth/form');
+        $url = "https://github.com/login/oauth/authorize";
+        $params = [
+            'client_id' => getenv('GITHUB_CLIENT_ID'),
+            'redirect_uri' => getenv('GITHUB_REDIRECT_URI'),
+            'scope' => 'user',
+        ];
+        $url .= '?' . http_build_query($params);
+
+        return view('auth/form', ['giturl' => $url]);
     }
 
     public function handleLogin(Request $request)
