@@ -27,8 +27,10 @@ class DatabaseSeeder extends Seeder
             $order->tags()->attach($tags->random(rand(1, 5))->pluck('id'));
         });
 
-        $posts->each(function ($post) {
-            $post->categories()->attach($post->id, [collect(['category', 'user'])->random()]);
+        $categories->each(function ($post) use ($users, $categories, $posts) {
+            $post_type = str(['App\Models\User','App\Models\Category'][array_rand(['App\Models\User','App\Models\Category'])]);
+            $postable_id = ($post_type == 'App\Models\Category' ? $categories->random()->id : $users->random()->id);
+            $post->postable()->attach($posts->random()->id, ['postable_type'=>$post_type, 'postable_id'=>$postable_id]);
         });
 
     }

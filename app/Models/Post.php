@@ -28,12 +28,7 @@ class Post extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(Category::class, 'post_type', 'post_id', 'post_type');
-    }
-
-    public function postTagCategories()
-    {
-        return $this->morphMany(Category::class, 'post_tag');
+        return $this->belongsToMany(Category::class, 'post_type', 'postable_id', 'postable_type', 'id1', 'id2');
     }
 
     public function category()

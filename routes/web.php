@@ -6,6 +6,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\PostByType as AdminPostByType;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\TagController as AdminTagController;
 use App\Http\Controllers\Admin\PostController as AdminPostController;
@@ -59,4 +61,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/auth/post/update', [AdminPostController::class, 'save'])->name('admin.post.update');
     Route::get('/auth/post/create', [AdminPostController::class, 'create'])->name('admin.post.create');
     Route::post('/auth/post/store', [AdminPostController::class, 'save'])->name('admin.post.store');
+
+    Route::get('/auth/user', [AdminUserController::class, 'index'])->name('admin.user.index');
+
+    Route::get('/auth/post-by-type/{id}/{postable_type}', [AdminPostByType::class, 'index'])->name('admin.post_by_type.index');
 });

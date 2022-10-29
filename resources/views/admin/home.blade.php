@@ -9,6 +9,7 @@
         <a href="{{ route('admin.category.index') }}" class="btn btn-primary">Categories</a>
         <a href="{{ route('admin.tag.index') }}" class="btn btn-primary">Tags</a>
         <a href="{{ route('admin.post.index') }}" class="btn btn-primary">Post</a>
+        <a href="{{ route('admin.user.index') }}" class="btn btn-primary">Users</a>
         <a href="{{ route('auth.logout') }}" class="btn btn-primary">Logout</a>
     </div>
 @endsection

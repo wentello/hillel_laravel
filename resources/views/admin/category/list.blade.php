@@ -10,6 +10,9 @@
         @foreach($categories as $category)
             <div class="row">
                 <div class="col">
+                    id: {{ $category->id }}
+                </div>
+                <div class="col">
                     title: {{ $category->title }}
                 </div>
                 <div class="col">
@@ -20,6 +23,9 @@
                 </div>
                 <div class="col">
                     <a href="{{ route('admin.category.delete', ['id' => $category->id]) }}">delete</a>
+                </div>
+                <div class="col">
+                    <a href="{{ route('admin.post_by_type.index', ['id' => $category->id, 'postable_type' => 'Category']) }}">show posts</a>
                 </div>
             </div>
         @endforeach
