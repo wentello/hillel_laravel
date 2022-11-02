@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CategoryController extends Controller
 {
@@ -22,6 +24,10 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
+        $response = Gate::inspect('delete');
+        if (!$response->allowed()) {
+            return redirect()->route('admin.category.index');
+        }
         if (empty($id)) {
             return new RedirectResponse('/admin/category');
         }
@@ -32,7 +38,7 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index');
     }
 
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $pageTitle = 'Update Categories';
 
@@ -49,6 +55,7 @@ class CategoryController extends Controller
 
     public function save(Request $request)
     {
+
         $request->validate([
             'title' => [
                 'required',
@@ -63,6 +70,8 @@ class CategoryController extends Controller
         if (!empty($request->id)) {
             $category = Category::find($request->id);
             $category->update($request->all());
+        } else if(!$request->user()->can('create', Category::class)){
+            abort(403);
         } else {
             Category::create($request->all());
         }

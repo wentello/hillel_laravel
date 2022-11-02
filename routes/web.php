@@ -44,7 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/auth/category', [AdminCategoryController::class, 'index'])->name('admin.category.index');
     Route::get('/auth/category/{id}/edit', [AdminCategoryController::class, 'edit'])->name('admin.category.edit');
     Route::get('/auth/category/{id}/delete', [AdminCategoryController::class, 'delete'])->name('admin.category.delete');
-    Route::post('/auth/category/update', function(Request $request){return (new AdminCategoryController)->save($request);})->can('update', ['App\Models\Category'])->name('admin.category.update');
+    Route::post('/auth/category/update', function(Request $request){return (new AdminCategoryController)->save($request);})->can('update', [Category::class])->name('admin.category.update');
     Route::get('/auth/category/create', [AdminCategoryController::class, 'create'])->name('admin.category.create');
     Route::post('/auth/category/store', [AdminCategoryController::class, 'save'])->middleware(['can:create,App\Models\Category'])->name('admin.category.store');
 
