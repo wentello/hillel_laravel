@@ -23,11 +23,6 @@ class Category extends Model
         return $this->hasMany(Post::class);
     }
 
-    public function postTagCategories()
-    {
-        return $this->morphMany(Post::class, 'postable',1,2,3,4);
-    }
-
     public function postable(){
         return $this->morphToMany(Post::class, 'postable');
     }
