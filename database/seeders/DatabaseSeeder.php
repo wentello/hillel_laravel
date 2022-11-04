@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,8 +30,8 @@ class DatabaseSeeder extends Seeder
         });
 
         $categories->each(function ($post) use ($users, $categories, $posts) {
-            $post_type = str(['App\Models\User','App\Models\Category'][array_rand(['App\Models\User','App\Models\Category'])]);
-            $postable_id = ($post_type == 'App\Models\Category' ? $categories->random()->id : $users->random()->id);
+            $post_type = str([User::class,Category::class][array_rand([User::class,Category::class])]);
+            $postable_id = ($post_type == Category::class ? $categories->random()->id : $users->random()->id);
             $post->postable()->attach($posts->random()->id, ['postable_type'=>$post_type, 'postable_id'=>$postable_id]);
         });
 
