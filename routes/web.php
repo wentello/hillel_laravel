@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\PostController as AdminPostController;
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Models\Category;
 use App\Http\Controllers\Oauth\GithubController;
+use \App\Http\Controllers\UserAgent;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ use App\Http\Controllers\Oauth\GithubController;
 */
 
 Route::get('/', [PostController::class, 'index'])->name('post.index');
+Route::get('/user-agent', [UserAgent::class, 'index'])->name('user-agent.index');
 Route::get('/author/{author}/category/{category}', [PostController::class, 'authorCategory'])->name('post.author.category');
 Route::get('/category/{category}', [PostController::class, 'category'])->name('category.index');
 Route::get('/author/{author}', [PostController::class, 'author'])->name('post.author');
