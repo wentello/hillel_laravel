@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use \Hillel\AgentUser\Test\UserAgentInterface;
 use \Hillel\AgentUserMatomo\Test\MatomoService;
-use Hillel\UserAgent\Test\JenssegersAgentService;
+use Hillel\UserAgentJenssegers\Test\JenssegersAgentService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,8 +17,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(UserAgentInterface::class, function () {
-            return new MatomoService();
-//            return new JenssegersAgentService();
+//            return new MatomoService();
+            return new JenssegersAgentService();
         });
     }
 

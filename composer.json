@@ -10,8 +10,8 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "wentello/matomo-user-agent-service-test": "*",
-        "wentello/jenssegers-user-agent-service-test": "*"
+        "wentello/matomo-user-agent-service-test": "^1.0",
+        "wentello/jenssegers-user-agent-service-test": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
