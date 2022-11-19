@@ -17,6 +17,7 @@ class UserAgentInfo
 
     public function __invoke(UserAgentInterface $userAgent)
     {
+
         return $this->getUserAgent($userAgent);
 //        return $this->getUserAgent(new JenssegersAgentService());
 //        return $this->getUserAgent(new MatomoService());
